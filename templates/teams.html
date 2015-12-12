@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome to Teamy!</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>
+//       $(document).ready(function() {
+//         $(".button-container-team .button").click(function() {
+//         $.post("/join-team", {
+//           name: "Donald Duck",
+//           city: "Duckburg"
+//         }
+//         });
+//       });
+    </script>
+  </head>
+  <body>
+    <h1>Teamy</h1>
+    <p class="desc">Open Teams</p>
+    
+    
+    {% for id, team in tList.iteritems(): %}
+    <div class="team">
+      <h3> {{ team["tname"] }}</h3>
+      <h4>Started by {{ team["name"] }}  </h4>
+      <p>{{ team["desc"]}}</p>
+      
+      <h5>Members</h5>
+      <div class="members-container">
+      {% for member in team["members"]%}
+        <p>{{ member["name"] }}</p>
+      {% endfor %}
+      </div>
+      {% if userid == id %}
+      <form action="/delete-team" method="POST">
+        <input type="hidden" name="id" value="{{ id }}">
+        <div class="button-container-team"><input class="button" type="submit" value="Delete this team"></div>
+      </form>
+      {% elif users[userid] is not defined %}
+      <form action="/join-team" method="POST">
+        <input type="hidden" name="id" value="{{ id }}">
+        <div class="button-container-team"><input class="button" type="submit" value="Join this team"></div>
+      </form>
+      {% elif users[userid] == id %}
+      <form action="/leave-team" method="POST">
+        <input type="hidden" name="id" value="{{ id }}">
+        <div class="button-container-team"><input class="button" type="submit" value="Leave this team"></div>
+      </form>
+      {% endif %}
+    </div>
+    {% endfor %}
+    {% if users[userid] is not defined %}
+    <div class="button-container"><a class="button" href="/create">Create your own team</a></div>
+    {% endif %}
+  </body>
+</html>

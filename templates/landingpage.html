@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome to Teamy!</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>
+//       $(document).ready(function() {
+//         $(".button-container-team .button").click(function() {
+//         $.post("/join-team", {
+//           name: "Donald Duck",
+//           city: "Duckburg"
+//         }
+//         });
+//       });
+    </script>
+  </head>
+  <body>
+    <h1 class="large-h1">Teamy</h1>
+    <p class="desc large-desc">Hackthon teams made easy</p>
+    <form class="form-full" action="/register" method="POST">
+      <input type="text" placeholder="Full name" name="name">
+      <div class="button-container"><input class="button" type="submit" href="/teams" value="View teams!"></div>
+    </form>
+  </body>
+</html>

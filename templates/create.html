@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+    <title>Welcome to Teamy!</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>
+      $(document).ready(function() {
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Teamy</h1>
+    <p class="desc">Create a team</p>
+    <form class="form-full" action="/make-team" method="POST" name="create-team">
+      <input type="text" placeholder="Team Name" name="tname"><br>
+      <input type="text" placeholder="Description" name="desc"><br>
+      
+      <div class="button-container"><input class="button" type="submit" value="Create team!"></div>
+    </form>
+    
+    <div class="button-container"><a class="button" href="/teams">View current teams</a></div>
+    
+  </body>
+</html>
