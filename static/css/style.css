@@ -11,6 +11,7 @@ h1 {
   font-weight:200;
   font-size:42px;
   text-align:center;
+  margin-top:20px;
 }
 .desc {
   font-weight:500;
@@ -53,10 +54,10 @@ body {
   margin:0 auto;
   font-weight:100;
   font-size:15px;
-  padding-top:2px;
-  padding-bottom:3px;
-  padding-left:5px;
-  padding-right:5px;
+  padding-top:3px;
+  padding-bottom:4px;
+  padding-left:7px;
+  padding-right:7px;
   background-color:white;
   text-decoration:none;
   border-style:solid;
@@ -64,6 +65,12 @@ body {
   border-width:1px;
   border-radius:3px;
   cursor:pointer;
+  transition-duration:0.25s;
+}
+
+.button:hover {
+  background-color:#fcfcfc;
+  transition-duration:0.25s;
 }
 
 .team {
@@ -109,6 +116,10 @@ body {
   margin:0 auto;
   padding:5px;
   margin-bottom:5px;
+}
+
+.form-full .button {
+  margin-top:5px;
 }
 
 .form-full {

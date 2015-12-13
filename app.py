@@ -9,9 +9,12 @@ users = {}
 def loggedIn():
   return not request.cookies.get("name") is None
 
+def getID():
+  return request.cookies.get('session')
+
 @app.route("/")
 def home():
-  if request.cookies.get('session') is None:
+  if getID() is None:
     resp = make_response(render_template("landingpage.html"))
     resp.set_cookie('session', ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(30)))
     return resp
@@ -28,9 +31,7 @@ def register():
 @app.route("/teams")
 def teams():
   if loggedIn():
-    userid = request.cookies["session"]
-
-    return render_template("teams.html", tList=teamList, users = users, userid = userid)
+    return render_template("teams.html", tList=teamList, users = users, userid = getID())
   else:
     return redirect("/")
 
@@ -43,37 +44,41 @@ def create():
 
 @app.route("/join-team", methods=["POST"])
 def joinTeam():
-  users[request.cookies["session"]] = request.form["id"]
+  users[getID()] = request.form["id"]
   teamList[request.form["id"]]["members"].append({
-      "userid":request.cookies["session"],
+      "userid":getID(),
       "name":request.cookies["name"],
     }) 
   return redirect("teams")
 
 @app.route("/delete-team", methods=["POST"])
 def deleteTeam():
-  users.pop(request.cookies["session"], None)
-  teamList.pop(request.cookies["session"], None)
+  users.pop(getID(), None)
+  teamList.pop(getID(), None)
+  for userID in users.keys():
+    if users[userID] == getID():
+      users.pop(userID)
+        
+  print users
   return redirect("teams")
 
 @app.route("/leave-team", methods=["POST"])
 def leaveTeam():
-  teamList[request.form["id"]]["members"].remove({"userid":request.cookies["session"], "name":request.cookies["name"],})
-  users.pop(request.cookies["session"], None)
+  teamList[request.form["id"]]["members"].remove({"userid":getID(), "name":request.cookies["name"],})
+  users.pop(getID(), None)
   return redirect("teams")
     
 @app.route("/make-team", methods=["POST"])
 def makeTeam():
-  teamList[request.cookies["session"]] = {
+  teamList[getID()] = {
     "name":request.cookies["name"] ,
     "tname":request.form["tname"],
     "desc":request.form["desc"]
   }
-  teamList[request.cookies["session"]]["members"] = [{"userid":request.cookies["session"],"name":request.cookies["name"]}]
-  users[request.cookies["session"]] = request.cookies["session"]
+  teamList[getID()]["members"] = [{"userid":getID(),"name":request.cookies["name"]}]
+  users[getID()] = getID()
   
   return redirect("teams")
 
-app.secret_key = 'oRaNgE'
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=4567, debug=True)

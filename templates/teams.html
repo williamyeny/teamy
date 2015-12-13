@@ -50,6 +50,9 @@
       {% endif %}
     </div>
     {% endfor %}
+    {% if tList|length() == 0 %}
+    <p style="text-align:center; margin-bottom:10px;">There are no open teams yet!</p>
+    {% endif %}
     {% if users[userid] is not defined %}
     <div class="button-container"><a class="button" href="/create">Create your own team</a></div>
     {% endif %}
